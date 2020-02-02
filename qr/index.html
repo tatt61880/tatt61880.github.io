@@ -12,7 +12,7 @@
 <body>
 <div id="contents">
 
-<input type="text" value="red" id="input-text" style="width: 400px;">
+<input type="text" value="" id="input-text" style="width: 400px;">
 
 <div id="qrcode"></div>
 
@@ -21,7 +21,8 @@
     const val = $(this).val();
     updateQrcode(val);
   });
-  updateQrcode('hoge');
+  updateQrcode('');
+
   function updateQrcode(text) {
     jQuery('#qrcode').qrcode({
       text  : text,
