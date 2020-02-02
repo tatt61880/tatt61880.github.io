@@ -12,14 +12,23 @@
 <body>
 <div id="contents">
 
-<div id="qrcodeCanvas"></div>
+<input type="text" value="red" id="input-text" style="width: 400px;">
+
+<div id="qrcode"></div>
 
 <script>
-  const text = 'tatt';
-
-  jQuery('#qrcodeCanvas').qrcode({
-    text   : text
+  $('#input-text').change(function() {
+    const val = $(this).val();
+    updateQrcode(val);
   });
+  updateQrcode('hoge');
+  function updateQrcode(text) {
+    jQuery('#qrcode').qrcode({
+      text  : text,
+      width : 300,
+      height : 300,
+    });
+  }
 </script>
 
 </div>
