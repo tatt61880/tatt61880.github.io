@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>QR</title>
+
+<link rel="stylesheet" href="./css/style.css">
+<script src="./js/jquery.min.js"></script>
+<script src="./js/jquery.qrcode.js"></script>
+<script src="./js/qrcode.js"></script>
+</head>
+
+<body>
+<div id="contents">
+
+<div id="qrcodeCanvas"></div>
+
+<script>
+  const text = 'tatt';
+
+  jQuery('#qrcodeCanvas').qrcode({
+    text   : text
+  });
+</script>
+
+</div>
+</body>
+</html>
