@@ -25,14 +25,19 @@
 
       // create canvas element
       let canvas = document.createElement('canvas');
-      canvas.width = options.width;
-      canvas.height = options.height;
+      $(canvas).css('border', '1px solid #000088');
+      const width = options.width;
+      const height = options.height;
+      canvas.width = width;
+      canvas.height = height;
       let ctx = canvas.getContext('2d');
 
       const margin = 4;
       // compute tileW/tileH based on options.width/options.height
-      let tileW = options.width / (qrcode.getModuleCount() + margin * 2);
-      let tileH = options.height / (qrcode.getModuleCount() + margin * 2);
+      let tileW = width / (qrcode.getModuleCount() + margin * 2);
+      let tileH = height / (qrcode.getModuleCount() + margin * 2);
+      ctx.fillStyle = options.background;
+      ctx.fillRect(0, 0, width, height);
 
       // draw in the canvas
       for (let row = 0; row < qrcode.getModuleCount(); row++){
