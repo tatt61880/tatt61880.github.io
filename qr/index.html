@@ -21,15 +21,15 @@
 <div id="qrcode"></div>
 
 <script>
-  $('#input-text').change(function() {
-    const val = $(this).val();
-    updateQrcode(val);
-  });
-  updateQrcode('');
+  $('#input-text').change(updateQrcode);
+  $(document).keyup(updateQrcode);
+  $(document).mouseup(updateQrcode);
+  updateQrcode();
 
-  function updateQrcode(text) {
+  function updateQrcode() {
+    const inputText = $('#input-text').val();
     jQuery('#qrcode').qrcode({
-      text  : text,
+      text  : inputText,
       width : 300,
       height : 300,
     });
