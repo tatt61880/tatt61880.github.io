@@ -25,6 +25,7 @@
 
       // create canvas element
       let canvas = document.createElement('canvas');
+      $(canvas).attr('id', 'canvas');
       $(canvas).css('border', '1px solid #000088');
       const width = options.width;
       const height = options.height;

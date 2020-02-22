@@ -19,6 +19,7 @@
 <input type="text" value="" id="input-text" style="width: 350px; margin-bottom: 20px; font-size: 16px;">
 
 <div id="qrcode"></div>
+<div><img id="newImg"></div>
 
 <script>
   $('#input-text').change(updateQrcode);
@@ -33,6 +34,15 @@
       width : 300,
       height : 300,
     });
+    canvasToImg();
+  }
+
+  function canvasToImg() {
+    const cvs = document.getElementById('canvas');
+    const png = cvs.toDataURL();
+    $('#newImg').attr('src', png);
+    $('#newImg').css('border', '1px solid #000088');
+    $('#canvas').parent().empty();
   }
 </script>
 
