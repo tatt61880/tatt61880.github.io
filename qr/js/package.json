@@ -1,17 +1,17 @@
 {
-  "name": "userscripts",
+  "name": "tatt61880.github.io",
   "version": "1.0.0",
-  "description": "userscripts by tatt61880",
+  "description": "tatt61880.github.io by tatt61880",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tatt61880/userscripts.git"
+    "url": "git+https://github.com/tatt61880/tatt61880.github.io.git"
   },
   "author": "@tatt61880",
   "bugs": {
-    "url": "https://github.com/tatt61880/userscripts/issues"
+    "url": "https://github.com/tatt61880/tatt61880.github.io/issues"
   },
-  "homepage": "https://github.com/tatt61880/userscripts#readme",
+  "homepage": "https://github.com/tatt61880/tatt61880.github.io#readme",
   "scripts": {
     "lint": "eslint *.js --fix"
   },
