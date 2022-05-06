@@ -21,31 +21,6 @@
 <div id="qrcode"></div>
 <div><img id="newImg" src="./"></div>
 
-<script>
-  const elemText = document.getElementById('inputText');
-  elemText.addEventListener('input', updateQrcode, false);
-
-  updateQrcode();
-
-  function updateQrcode() {
-    const inputText = $('#inputText').val();
-    jQuery('#qrcode').qrcode({
-      text  : inputText,
-      width : 300,
-      height : 300,
-    });
-    canvasToImg();
-  }
-
-  function canvasToImg() {
-    const cvs = document.getElementById('canvas');
-    const png = cvs.toDataURL();
-    $('#newImg').attr('src', png);
-    $('#newImg').css('border', '1px solid #000088');
-    $('#canvas').parent().empty();
-  }
-</script>
-
 </div>
 </body>
 </html>

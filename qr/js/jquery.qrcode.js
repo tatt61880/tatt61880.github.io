@@ -1,6 +1,27 @@
 /*global QRErrorCorrectLevel, QRCode */
 (function($){
-  $.fn.qrcode = function(options) {
+  window.onload = function() {
+    const elemText = document.getElementById('inputText');
+    elemText.addEventListener('input', update, false);
+    update();
+
+    function update() {
+      const inputText = $('#inputText').val();
+      updateQrcode({
+        text  : inputText,
+        width : 300,
+        height : 300,
+      });
+
+      const cvs = document.getElementById('canvas');
+      const png = cvs.toDataURL();
+      $('#newImg').attr('src', png);
+      $('#newImg').css('border', '1px solid #000088');
+      $('#canvas').parent().empty();
+    }
+  }
+
+  function updateQrcode(options) {
     // if options is string,
     if (typeof options === 'string'){
       options = { text: options };
@@ -17,7 +38,7 @@
       foreground: '#000000'
     }, options);
 
-    let createCanvas = function(){
+    function createCanvas(){
       // create the qrcode itself
       let qrcode = new QRCode(options.typeNumber, options.correctLevel);
       qrcode.addData(options.text);
@@ -56,10 +77,9 @@
       return canvas;
     };
 
-    return this.each(function(){
-      let element = createCanvas();
-      $(this).empty();
-      $(element).appendTo(this);
-    });
-  };
+    const elemQrcode = document.getElementById('qrcode');
+    let element = createCanvas();
+    elemQrcode.textContent = '';
+    $(element).appendTo(elemQrcode);
+  }
 })(jQuery);
