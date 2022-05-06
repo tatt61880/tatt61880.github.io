@@ -16,19 +16,19 @@
 <body>
 <div id="contents">
 
-<input type="text" value="" id="input-text" style="width: 350px; margin-bottom: 20px; font-size: 16px;">
+<input type="text" value="" id="inputText" style="width: 350px; margin-bottom: 20px; font-size: 16px;">
 
 <div id="qrcode"></div>
-<div><img id="newImg"></div>
+<div><img id="newImg" src="./"></div>
 
 <script>
-  $('#input-text').change(updateQrcode);
-  $(document).keyup(updateQrcode);
-  $(document).mouseup(updateQrcode);
+  const elemText = document.getElementById('inputText');
+  elemText.addEventListener('input', updateQrcode, false);
+
   updateQrcode();
 
   function updateQrcode() {
-    const inputText = $('#input-text').val();
+    const inputText = $('#inputText').val();
     jQuery('#qrcode').qrcode({
       text  : inputText,
       width : 300,
