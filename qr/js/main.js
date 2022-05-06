@@ -6,11 +6,11 @@
     update();
 
     function update() {
-      const inputText = document.getElementById("inputText").value;
+      const inputText = document.getElementById('inputText').value;
       updateQrcode({
-        text  : inputText,
-        width : 300,
-        height : 300,
+        text: inputText,
+        width: 300,
+        height: 300,
       });
 
       const cvs = document.getElementById('canvas');
@@ -20,7 +20,7 @@
       elemNewImg.style.border = '1px solid #000088';
       document.getElementById('canvas').parentNode.textContent = '';
     }
-  }
+  };
 
   function updateQrcode(options) {
     // if options is string,
@@ -76,7 +76,7 @@
       }
       // return just built canvas
       return canvasElem;
-    };
+    }
 
     const elemQrcode = document.getElementById('qrcode');
     elemQrcode.textContent = '';
