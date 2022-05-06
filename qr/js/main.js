@@ -1,12 +1,12 @@
 /*global QRErrorCorrectLevel, QRCode */
-(function($){
+(function(){
   window.onload = function() {
     const elemText = document.getElementById('inputText');
     elemText.addEventListener('input', update, false);
     update();
 
     function update() {
-      const inputText = $('#inputText').val();
+      const inputText = document.getElementById("inputText").value;
       updateQrcode({
         text  : inputText,
         width : 300,
@@ -15,9 +15,10 @@
 
       const cvs = document.getElementById('canvas');
       const png = cvs.toDataURL();
-      $('#newImg').attr('src', png);
-      $('#newImg').css('border', '1px solid #000088');
-      $('#canvas').parent().empty();
+      const elemNewImg = document.getElementById('newImg');
+      elemNewImg.setAttribute('src', png);
+      elemNewImg.style.border = '1px solid #000088';
+      document.getElementById('canvas').parentNode.textContent = '';
     }
   }
 
@@ -29,14 +30,14 @@
 
     // set default values
     // typeNumber < 1 for automatic calculation
-    options = $.extend({}, {
+    Object.assign(options, {
       width: 256,
       height: 256,
       typeNumber: -1,
       correctLevel: QRErrorCorrectLevel.L,
       background: '#ffffff',
       foreground: '#000000'
-    }, options);
+    });
 
     function createCanvas(){
       // create the qrcode itself
@@ -45,14 +46,14 @@
       qrcode.make();
 
       // create canvas element
-      let canvas = document.createElement('canvas');
-      $(canvas).attr('id', 'canvas');
-      $(canvas).css('border', '1px solid #000088');
+      let canvasElem = document.createElement('canvas');
+      canvasElem.setAttribute('id', 'canvas');
+      canvasElem.style.border = '1px solid #000088';
       const width = options.width;
       const height = options.height;
-      canvas.width = width;
-      canvas.height = height;
-      let ctx = canvas.getContext('2d');
+      canvasElem.width = width;
+      canvasElem.height = height;
+      let ctx = canvasElem.getContext('2d');
 
       const margin = 4;
       // compute tileW/tileH based on options.width/options.height
@@ -74,12 +75,11 @@
         }
       }
       // return just built canvas
-      return canvas;
+      return canvasElem;
     };
 
     const elemQrcode = document.getElementById('qrcode');
-    let element = createCanvas();
     elemQrcode.textContent = '';
-    $(element).appendTo(elemQrcode);
+    elemQrcode.appendChild(createCanvas());
   }
-})(jQuery);
+})();
