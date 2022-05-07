@@ -1,25 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-<title>QR</title>
+  <title>QR</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=460">
+  <link rel="shortcut icon" href="./images/favicon.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=460">
-<link rel="shortcut icon" href="./images/favicon.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
-<link rel="stylesheet" href="./css/style.css">
-<script src="./js/main.js"></script>
-<script src="./js/qrcode.js"></script>
+  <link rel="stylesheet" href="./css/style.css?2022.05.08">
+
+  <script src="./js/qrcode.js?2022.05.08"></script>
+  <script src="./js/main.js?2022.05.08"></script>
 </head>
 
 <body>
 <div id="contents">
+  <div class="pink">
+    <h1>QRコード作成ツール</h1>
+    <div class="inner">
+      <input type="text" value="" id="inputText" style="width: 350px; margin-bottom: 10px; font-size: 16px;">
 
-<input type="text" value="" id="inputText" style="width: 350px; margin-bottom: 20px; font-size: 16px;">
-
-<div id="qrcode"></div>
-<div><img id="newImg" src="./"></div>
-
+      <div id="qrcode"></div>
+      <div>
+        <img id="newImg" src="./" alt="QR" />
+      </div>
+    </div>
+  </div>
 </div>
 </body>
 </html>
