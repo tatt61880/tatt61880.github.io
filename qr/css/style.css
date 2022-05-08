@@ -29,3 +29,7 @@ div.pink {
   margin-bottom: 5px;
   border: solid 3px pink;
 }
+
+ul {
+  text-align: left;
+}
