@@ -39,13 +39,14 @@
       foreground: '#000000'
     });
 
-    function createCanvas(){
-      // create the qrcode itself
-      let qrcode = new QRCode(options.typeNumber, options.correctLevel);
-      qrcode.addData(options.text);
-      qrcode.make();
+    function isAscii(text) {
+      for (const c of text) {
+        if (c.charCodeAt(0) > 0x7f) return false;
+      }
+      return true;
+    }
 
-      // create canvas element
+    function createCanvas(){
       let canvasElem = document.createElement('canvas');
       canvasElem.setAttribute('id', 'canvas');
       canvasElem.style.border = '1px solid #000088';
@@ -55,19 +56,29 @@
       canvasElem.height = height;
       let ctx = canvasElem.getContext('2d');
 
+      if (!isAscii(options.text)) {
+        ctx.fillStyle = options.background;
+        ctx.fillRect(0, 0, width, height);
+        ctx.fillStyle = options.foreground;
+        ctx.fillRect(0.15 * width, 0.15 * height, 0.7 * width, 0.7 * height);
+        return canvasElem;
+      }
+
+      let qrcode = new QRCode(options.typeNumber, options.correctLevel);
+      qrcode.addData(options.text);
+      qrcode.make();
+
       const margin = 4;
-      // compute tileW/tileH based on options.width/options.height
-      let tileW = width / (qrcode.getModuleCount() + margin * 2);
-      let tileH = height / (qrcode.getModuleCount() + margin * 2);
+      let tileW = width / (qrcode.getModuleCount() + 2 * margin);
+      let tileH = height / (qrcode.getModuleCount() + 2 * margin);
       ctx.fillStyle = options.background;
       ctx.fillRect(0, 0, width, height);
 
-      // draw in the canvas
       for (let row = 0; row < qrcode.getModuleCount(); row++){
         for (let col = 0; col < qrcode.getModuleCount(); col++){
           ctx.fillStyle = qrcode.isDark(row, col) ? options.foreground : options.background;
-          let w = Math.ceil((col+1)*tileW) - Math.floor(col*tileW);
-          let h = Math.ceil((row+1)*tileH) - Math.floor(row*tileH);
+          let w = Math.ceil((col + 1) * tileW) - Math.floor(col * tileW);
+          let h = Math.ceil((row + 1) * tileH) - Math.floor(row * tileH);
           ctx.fillRect(
             Math.round((col + margin) * tileW),
             Math.round((row + margin) * tileH),
