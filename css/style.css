@@ -42,3 +42,10 @@ th, td {
 th {
   background-color: #b7eefb;
 }
+
+img.favicon {
+  width: 16px;
+  height: 16px;
+  margin: 0px 5px;
+  vertical-align: middle;
+}
