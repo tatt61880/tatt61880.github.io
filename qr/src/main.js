@@ -1,5 +1,5 @@
 /*global QRErrorCorrectLevel, QRCode */
-(function(){
+(function() {
   window.onload = function() {
     const elemText = document.getElementById('inputText');
     elemText.addEventListener('input', update, false);
@@ -24,7 +24,7 @@
 
   function updateQrcode(options) {
     // if options is string,
-    if (typeof options === 'string'){
+    if (typeof options === 'string') {
       options = { text: options };
     }
 
@@ -46,15 +46,15 @@
       return true;
     }
 
-    function createCanvas(){
-      let canvasElem = document.createElement('canvas');
+    function createCanvas() {
+      const canvasElem = document.createElement('canvas');
       canvasElem.setAttribute('id', 'canvas');
       canvasElem.style.border = '1px solid #000088';
       const width = options.width;
       const height = options.height;
       canvasElem.width = width;
       canvasElem.height = height;
-      let ctx = canvasElem.getContext('2d');
+      const ctx = canvasElem.getContext('2d');
 
       if (!isAscii(options.text)) {
         ctx.fillStyle = options.background;
@@ -64,21 +64,21 @@
         return canvasElem;
       }
 
-      let qrcode = new QRCode(options.typeNumber, options.correctLevel);
+      const qrcode = new QRCode(options.typeNumber, options.correctLevel);
       qrcode.addData(options.text);
       qrcode.make();
 
       const margin = 4;
-      let tileW = width / (qrcode.getModuleCount() + 2 * margin);
-      let tileH = height / (qrcode.getModuleCount() + 2 * margin);
+      const tileW = width / (qrcode.getModuleCount() + 2 * margin);
+      const tileH = height / (qrcode.getModuleCount() + 2 * margin);
       ctx.fillStyle = options.background;
       ctx.fillRect(0, 0, width, height);
 
-      for (let row = 0; row < qrcode.getModuleCount(); row++){
-        for (let col = 0; col < qrcode.getModuleCount(); col++){
+      for (let row = 0; row < qrcode.getModuleCount(); row++) {
+        for (let col = 0; col < qrcode.getModuleCount(); col++) {
           ctx.fillStyle = qrcode.isDark(row, col) ? options.foreground : options.background;
-          let w = Math.ceil((col + 1) * tileW) - Math.floor(col * tileW);
-          let h = Math.ceil((row + 1) * tileH) - Math.floor(row * tileH);
+          const w = Math.ceil((col + 1) * tileW) - Math.floor(col * tileW);
+          const h = Math.ceil((row + 1) * tileH) - Math.floor(row * tileH);
           ctx.fillRect(
             Math.round((col + margin) * tileW),
             Math.round((row + margin) * tileH),

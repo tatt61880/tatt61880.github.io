@@ -1,4 +1,5 @@
 {
+  "private": true,
   "name": "tatt61880.github.io",
   "version": "1.0.0",
   "description": "tatt61880.github.io by tatt61880",
@@ -13,10 +14,22 @@
   },
   "homepage": "https://github.com/tatt61880/tatt61880.github.io#readme",
   "scripts": {
-    "lint": "eslint *.js --fix"
+    "eslint": "eslint ./src/*.js --fix",
+    "htmlhint": "htmlhint ./*.html",
+    "stylelint": "stylelint ./css/*.css --fix"
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.8.0"
+    "@babel/core": "^7.18.10",
+    "@babel/eslint-parser": "^7.18.9",
+    "eslint": "^8.21.0",
+    "htmlhint": "^1.1.4",
+    "stylelint": "^14.9.1",
+    "stylelint-config-standard": "^26.0.0"
+  },
+  "stylelint": {
+    "extends": "stylelint-config-standard",
+    "rules": {
+      "color-hex-length": "long"
+    }
   }
 }

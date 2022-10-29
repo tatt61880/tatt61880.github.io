@@ -51,7 +51,7 @@ function QRCode(typeNumber, errorCorrectLevel) {
 
 QRCode.prototype = {
   addData: function(data) {
-    let newData = new QR8bitByte(data);
+    const newData = new QR8bitByte(data);
     this.dataList.push(newData);
     this.dataCache = null;
   },
@@ -69,19 +69,19 @@ QRCode.prototype = {
 
   make: function() {
     // Calculate automatically typeNumber if provided is < 1
-    if (this.typeNumber < 1){
+    if (this.typeNumber < 1) {
       let typeNumber = 1;
       for (typeNumber = 1; typeNumber < 40; typeNumber++) {
-        let rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
+        const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
 
-        let buffer = new QRBitBuffer();
+        const buffer = new QRBitBuffer();
         let totalDataCount = 0;
         for (let i = 0; i < rsBlocks.length; i++) {
           totalDataCount += rsBlocks[i].dataCount;
         }
 
         for (let i = 0; i < this.dataList.length; i++) {
-          let data = this.dataList[i];
+          const data = this.dataList[i];
           buffer.put(data.mode, 4);
           buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber));
           data.write(buffer);
@@ -156,7 +156,7 @@ QRCode.prototype = {
 
       this.makeImpl(true, i);
 
-      let lostPoint = QRUtil.getLostPoint(this);
+      const lostPoint = QRUtil.getLostPoint(this);
 
       if (i == 0 || minLostPoint > lostPoint) {
         minLostPoint = lostPoint;
@@ -169,19 +169,19 @@ QRCode.prototype = {
 
   createMovieClip: function(target_mc, instance_name, depth) {
 
-    let qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
-    let cs = 1;
+    const qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
+    const cs = 1;
 
     this.make();
 
     for (let row = 0; row < this.modules.length; row++) {
 
-      let y = row * cs;
+      const y = row * cs;
 
       for (let col = 0; col < this.modules[row].length; col++) {
 
-        let x = col * cs;
-        let dark = this.modules[row][col];
+        const x = col * cs;
+        const dark = this.modules[row][col];
 
         if (dark) {
           qr_mc.beginFill(0, 100);
@@ -216,14 +216,14 @@ QRCode.prototype = {
 
   setupPositionAdjustPattern: function() {
 
-    let pos = QRUtil.getPatternPosition(this.typeNumber);
+    const pos = QRUtil.getPatternPosition(this.typeNumber);
 
     for (let i = 0; i < pos.length; i++) {
 
       for (let j = 0; j < pos.length; j++) {
 
-        let row = pos[i];
-        let col = pos[j];
+        const row = pos[i];
+        const col = pos[j];
 
         if (this.modules[row][col] != null) {
           continue;
@@ -247,7 +247,7 @@ QRCode.prototype = {
 
   setupTypeNumber: function(test) {
 
-    let bits = QRUtil.getBCHTypeNumber(this.typeNumber);
+    const bits = QRUtil.getBCHTypeNumber(this.typeNumber);
 
     for (let i = 0; i < 18; i++) {
       const mod = !test && (bits >> i & 1) == 1;
@@ -262,8 +262,8 @@ QRCode.prototype = {
 
   setupTypeInfo: function(test, maskPattern) {
 
-    let data = this.errorCorrectLevel << 3 | maskPattern;
-    let bits = QRUtil.getBCHTypeInfo(data);
+    const data = this.errorCorrectLevel << 3 | maskPattern;
+    const bits = QRUtil.getBCHTypeInfo(data);
 
     // vertical
     for (let i = 0; i < 15; i++) {
@@ -314,7 +314,7 @@ QRCode.prototype = {
               dark = (data[byteIndex] >>> bitIndex & 1) == 1;
             }
 
-            let mask = QRUtil.getMask(maskPattern, row, col - c);
+            const mask = QRUtil.getMask(maskPattern, row, col - c);
 
             if (mask) {
               dark = !dark;
@@ -348,11 +348,11 @@ QRCode.PAD0 = 0xEC;
 QRCode.PAD1 = 0x11;
 
 QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
-  let rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
-  let buffer = new QRBitBuffer();
+  const rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+  const buffer = new QRBitBuffer();
 
   for (let i = 0; i < dataList.length; i++) {
-    let data = dataList[i];
+    const data = dataList[i];
     buffer.put(data.mode, 4);
     buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber));
     data.write(buffer);
@@ -405,12 +405,12 @@ QRCode.createBytes = function(buffer, rsBlocks) {
   let maxDcCount = 0;
   let maxEcCount = 0;
 
-  let dcdata = new Array(rsBlocks.length);
-  let ecdata = new Array(rsBlocks.length);
+  const dcdata = new Array(rsBlocks.length);
+  const ecdata = new Array(rsBlocks.length);
 
   for (let r = 0; r < rsBlocks.length; r++) {
-    let dcCount = rsBlocks[r].dataCount;
-    let ecCount = rsBlocks[r].totalCount - dcCount;
+    const dcCount = rsBlocks[r].dataCount;
+    const ecCount = rsBlocks[r].totalCount - dcCount;
 
     maxDcCount = Math.max(maxDcCount, dcCount);
     maxEcCount = Math.max(maxEcCount, ecCount);
@@ -422,14 +422,14 @@ QRCode.createBytes = function(buffer, rsBlocks) {
     }
     offset += dcCount;
 
-    let rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
-    let rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
+    const rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+    const rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
 
-    let modPoly = rawPoly.mod(rsPoly);
+    const modPoly = rawPoly.mod(rsPoly);
     ecdata[r] = new Array(rsPoly.getLength() - 1);
     for (let i = 0; i < ecdata[r].length; i++) {
       const modIndex = i + modPoly.getLength() - ecdata[r].length;
-      ecdata[r][i] = modIndex >= 0? modPoly.get(modIndex) : 0;
+      ecdata[r][i] = modIndex >= 0 ? modPoly.get(modIndex) : 0;
     }
 
   }
@@ -439,7 +439,7 @@ QRCode.createBytes = function(buffer, rsBlocks) {
     totalCodeCount += rsBlocks[i].totalCount;
   }
 
-  let data = new Array(totalCodeCount);
+  const data = new Array(totalCodeCount);
   let index = 0;
 
   for (let i = 0; i < maxDcCount; i++) {
@@ -477,7 +477,7 @@ const QRMode = {
 // QRErrorCorrectLevel
 //---------------------------------------------------------------------
 
-let QRErrorCorrectLevel = {
+const QRErrorCorrectLevel = {
   L: 1,
   M: 0,
   Q: 3,
@@ -488,7 +488,7 @@ let QRErrorCorrectLevel = {
 // QRMaskPattern
 //---------------------------------------------------------------------
 
-let QRMaskPattern = {
+const QRMaskPattern = {
   PATTERN000: 0,
   PATTERN001: 1,
   PATTERN010: 2,
@@ -660,7 +660,7 @@ const QRUtil = {
 
   getLostPoint: function(qrCode) {
 
-    let moduleCount = qrCode.getModuleCount();
+    const moduleCount = qrCode.getModuleCount();
 
     let lostPoint = 0;
 
@@ -668,7 +668,7 @@ const QRUtil = {
     for (let row = 0; row < moduleCount; row++) {
       for (let col = 0; col < moduleCount; col++) {
         let sameCount = 0;
-        let dark = qrCode.isDark(row, col);
+        const dark = qrCode.isDark(row, col);
 
         for (let r = -1; r <= 1; r++) {
           if (row + r < 0 || moduleCount <= row + r) {
@@ -751,7 +751,7 @@ const QRUtil = {
       }
     }
 
-    let ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+    const ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
     lostPoint += ratio * 10;
 
     return lostPoint;
@@ -839,7 +839,7 @@ QRPolynomial.prototype = {
 
   multiply: function(e) {
 
-    let num = new Array(this.getLength() + e.getLength() - 1);
+    const num = new Array(this.getLength() + e.getLength() - 1);
 
     for (let i = 0; i < this.getLength(); i++) {
       for (let j = 0; j < e.getLength(); j++) {
@@ -856,9 +856,9 @@ QRPolynomial.prototype = {
       return this;
     }
 
-    let ratio = QRMath.glog(this.get(0)) - QRMath.glog(e.get(0));
+    const ratio = QRMath.glog(this.get(0)) - QRMath.glog(e.get(0));
 
-    let num = new Array(this.getLength());
+    const num = new Array(this.getLength());
 
     for (let i = 0; i < this.getLength(); i++) {
       num[i] = this.get(i);
@@ -1132,21 +1132,21 @@ QRRSBlock.RS_BLOCK_TABLE = [
 
 QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
 
-  let rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
+  const rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
 
   if (rsBlock == undefined) {
     throw new Error('bad rs block @ typeNumber:' + typeNumber + '/errorCorrectLevel:' + errorCorrectLevel);
   }
 
-  let length = rsBlock.length / 3;
+  const length = rsBlock.length / 3;
 
-  let list = new Array();
+  const list = new Array();
 
   for (let i = 0; i < length; i++) {
 
-    let count = rsBlock[i * 3 + 0];
-    let totalCount = rsBlock[i * 3 + 1];
-    let dataCount = rsBlock[i * 3 + 2];
+    const count = rsBlock[i * 3 + 0];
+    const totalCount = rsBlock[i * 3 + 1];
+    const dataCount = rsBlock[i * 3 + 2];
 
     for (let j = 0; j < count; j++) {
       list.push(new QRRSBlock(totalCount, dataCount));
@@ -1184,7 +1184,7 @@ function QRBitBuffer() {
 QRBitBuffer.prototype = {
 
   get: function(index) {
-    let bufIndex = Math.floor(index / 8);
+    const bufIndex = Math.floor(index / 8);
     return (this.buffer[bufIndex] >>> 7 - index % 8 & 1) == 1;
   },
 
@@ -1200,7 +1200,7 @@ QRBitBuffer.prototype = {
 
   putBit: function(bit) {
 
-    let bufIndex = Math.floor(this.length / 8);
+    const bufIndex = Math.floor(this.length / 8);
     if (this.buffer.length <= bufIndex) {
       this.buffer.push(0);
     }
