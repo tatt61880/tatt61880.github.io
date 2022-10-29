@@ -21,15 +21,12 @@ h1 {
   font-size: 18px;
 }
 
-div.inner {
-  margin: 5px;
-}
-
-div.pink {
-  margin-bottom: 5px;
-  border: solid 3px pink;
-}
-
 ul {
   text-align: left;
+}
+
+#inputText {
+  width: 400px;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
 }
