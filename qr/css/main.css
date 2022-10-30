@@ -21,6 +21,10 @@ h1 {
   font-size: 18px;
 }
 
+div {
+  padding-bottom: 5px;
+}
+
 ul {
   text-align: left;
 }
