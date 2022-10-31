@@ -1,12 +1,12 @@
 /*global QRErrorCorrectLevel, QRCode */
 (function() {
   window.onload = function() {
-    const elemText = document.getElementById('inputText');
+    const elemText = document.getElementById('input-text');
     elemText.addEventListener('input', update, false);
     update();
 
     function update() {
-      const inputText = document.getElementById('inputText').value;
+      const inputText = document.getElementById('input-text').value;
       updateQrcode({
         text: inputText,
         width: 300,

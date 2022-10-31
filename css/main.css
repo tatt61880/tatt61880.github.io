@@ -9,16 +9,16 @@ body {
 
 #contents {
   max-width: 700px;
-  margin: auto;
   padding: 0;
+  margin: auto;
   text-align: center;
   background-color: white;
 }
 
 h1 {
   margin: 0;
-  background-color: pink;
   font-size: 18px;
+  background-color: pink;
 }
 
 div.inner {
@@ -31,8 +31,8 @@ table {
 
 th,
 td {
-  border: 2px solid #87ceeb;
   padding: 5px 10px;
+  border: 2px solid #87ceeb;
 }
 
 th {
