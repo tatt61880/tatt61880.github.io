@@ -27,6 +27,11 @@ div.inner {
 
 table {
   border-collapse: collapse;
+  background-color: #fafaff;
+}
+
+tr:nth-child(odd) {
+  background: #f4f4ff;
 }
 
 th,
