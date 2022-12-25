@@ -1,6 +1,6 @@
-/*global QRErrorCorrectLevel, QRCode */
-(function() {
-  window.onload = function() {
+/* global QRErrorCorrectLevel, QRCode */
+(function () {
+  window.onload = function () {
     const elemText = document.getElementById('input-text');
     elemText.addEventListener('input', update, false);
     update();
@@ -23,9 +23,8 @@
   };
 
   function updateQrcode(options) {
-    // if options is string,
     if (typeof options === 'string') {
-      options = { text: options };
+      options = { text: options }; // eslint-disable-line no-param-reassign
     }
 
     // set default values
