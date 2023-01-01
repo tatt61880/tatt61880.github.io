@@ -167,9 +167,9 @@ QRCode.prototype = {
     return pattern;
   },
 
-  createMovieClip(target_mc, instance_name, depth) {
+  createMovieClip(targetMc, instanceName, depth) {
 
-    const qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
+    const qrMc = targetMc.createEmptyMovieClip(instanceName, depth);
     const cs = 1;
 
     this.make();
@@ -184,17 +184,17 @@ QRCode.prototype = {
         const dark = this.modules[row][col];
 
         if (dark) {
-          qr_mc.beginFill(0, 100);
-          qr_mc.moveTo(x, y);
-          qr_mc.lineTo(x + cs, y);
-          qr_mc.lineTo(x + cs, y + cs);
-          qr_mc.lineTo(x, y + cs);
-          qr_mc.endFill();
+          qrMc.beginFill(0, 100);
+          qrMc.moveTo(x, y);
+          qrMc.lineTo(x + cs, y);
+          qrMc.lineTo(x + cs, y + cs);
+          qrMc.lineTo(x, y + cs);
+          qrMc.endFill();
         }
       }
     }
 
-    return qr_mc;
+    return qrMc;
   },
 
   setupTimingPattern() {
@@ -586,17 +586,17 @@ const QRUtil = {
 
     switch (maskPattern) {
 
-    case QRMaskPattern.PATTERN000 : return (i + j) % 2 === 0;
-    case QRMaskPattern.PATTERN001 : return i % 2 === 0;
-    case QRMaskPattern.PATTERN010 : return j % 3 === 0;
-    case QRMaskPattern.PATTERN011 : return (i + j) % 3 === 0;
-    case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3)) % 2 === 0;
-    case QRMaskPattern.PATTERN101 : return i * j % 2 + i * j % 3 === 0;
-    case QRMaskPattern.PATTERN110 : return (i * j % 2 + i * j % 3) % 2 === 0;
-    case QRMaskPattern.PATTERN111 : return (i * j % 3 + (i + j) % 2) % 2 === 0;
+      case QRMaskPattern.PATTERN000 : return (i + j) % 2 === 0;
+      case QRMaskPattern.PATTERN001 : return i % 2 === 0;
+      case QRMaskPattern.PATTERN010 : return j % 3 === 0;
+      case QRMaskPattern.PATTERN011 : return (i + j) % 3 === 0;
+      case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3)) % 2 === 0;
+      case QRMaskPattern.PATTERN101 : return i * j % 2 + i * j % 3 === 0;
+      case QRMaskPattern.PATTERN110 : return (i * j % 2 + i * j % 3) % 2 === 0;
+      case QRMaskPattern.PATTERN111 : return (i * j % 3 + (i + j) % 2) % 2 === 0;
 
-    default :
-      throw new Error('bad maskPattern:' + maskPattern);
+      default :
+        throw new Error('bad maskPattern:' + maskPattern);
     }
   },
 
@@ -618,12 +618,12 @@ const QRUtil = {
       // 1 - 9
 
       switch (mode) {
-      case QRMode.MODE_NUMBER : return 10;
-      case QRMode.MODE_ALPHA_NUM : return 9;
-      case QRMode.MODE_8BIT_BYTE : return 8;
-      case QRMode.MODE_KANJI : return 8;
-      default :
-        throw new Error('mode:' + mode);
+        case QRMode.MODE_NUMBER : return 10;
+        case QRMode.MODE_ALPHA_NUM : return 9;
+        case QRMode.MODE_8BIT_BYTE : return 8;
+        case QRMode.MODE_KANJI : return 8;
+        default :
+          throw new Error('mode:' + mode);
       }
 
     } else if (type < 27) {
@@ -631,12 +631,12 @@ const QRUtil = {
       // 10 - 26
 
       switch (mode) {
-      case QRMode.MODE_NUMBER : return 12;
-      case QRMode.MODE_ALPHA_NUM : return 11;
-      case QRMode.MODE_8BIT_BYTE : return 16;
-      case QRMode.MODE_KANJI : return 10;
-      default :
-        throw new Error('mode:' + mode);
+        case QRMode.MODE_NUMBER : return 12;
+        case QRMode.MODE_ALPHA_NUM : return 11;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI : return 10;
+        default :
+          throw new Error('mode:' + mode);
       }
 
     } else if (type < 41) {
@@ -644,12 +644,12 @@ const QRUtil = {
       // 27 - 40
 
       switch (mode) {
-      case QRMode.MODE_NUMBER : return 14;
-      case QRMode.MODE_ALPHA_NUM : return 13;
-      case QRMode.MODE_8BIT_BYTE : return 16;
-      case QRMode.MODE_KANJI : return 12;
-      default :
-        throw new Error('mode:' + mode);
+        case QRMode.MODE_NUMBER : return 14;
+        case QRMode.MODE_ALPHA_NUM : return 13;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI : return 12;
+        default :
+          throw new Error('mode:' + mode);
       }
 
     } else {
@@ -1158,16 +1158,16 @@ QRRSBlock.getRSBlocks = function (typeNumber, errorCorrectLevel) {
 QRRSBlock.getRsBlockTable = function (typeNumber, errorCorrectLevel) {
 
   switch (errorCorrectLevel) {
-  case QRErrorCorrectLevel.L :
-    return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
-  case QRErrorCorrectLevel.M :
-    return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
-  case QRErrorCorrectLevel.Q :
-    return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
-  case QRErrorCorrectLevel.H :
-    return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
-  default :
-    return undefined;
+    case QRErrorCorrectLevel.L :
+      return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+    case QRErrorCorrectLevel.M :
+      return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+    case QRErrorCorrectLevel.Q :
+      return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+    case QRErrorCorrectLevel.H :
+      return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+    default :
+      return undefined;
   }
 };
 
