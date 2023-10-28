@@ -20,7 +20,8 @@ body {
 h1 {
   margin: 0;
   font-size: 18px;
-  background-color: pink;
+  color: #000055;
+  background-color: #c0cbff;
 }
 
 div.inner {
