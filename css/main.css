@@ -47,6 +47,10 @@ th {
   background-color: #b7eefb;
 }
 
+td {
+  text-align: left;
+}
+
 img.favicon {
   width: 16px;
   height: 16px;
