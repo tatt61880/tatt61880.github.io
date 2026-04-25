@@ -15,9 +15,9 @@
 
       const cvs = document.getElementById('canvas');
       const png = cvs.toDataURL();
-      const elemNewImg = document.getElementById('newImg');
-      elemNewImg.setAttribute('src', png);
-      elemNewImg.style.border = '1px solid #000088';
+      const elemNewImage = document.getElementById('new-image');
+      elemNewImage.setAttribute('src', png);
+      elemNewImage.style.border = '1px solid #000088';
       document.getElementById('canvas').parentNode.textContent = '';
     }
   };

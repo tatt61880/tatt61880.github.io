@@ -35,5 +35,9 @@ ul {
 #input-text {
   width: 400px;
   margin-bottom: 10px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+}
+
+input[type="text"] {
+  border: solid 1px #808080;
 }
