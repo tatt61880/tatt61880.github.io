@@ -52,7 +52,13 @@ td {
 }
 
 img.favicon {
+  flex-shrink: 0;
   width: 16px;
   height: 16px;
   margin: 0 10px 0 5px;
+}
+
+td a {
+  display: flex;
+  align-items: center;
 }
