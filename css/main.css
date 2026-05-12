@@ -29,6 +29,7 @@ div.inner {
 }
 
 table {
+  margin: auto;
   border-collapse: collapse;
   background-color: #fafaff;
 }
