@@ -17,11 +17,27 @@ body {
   background-color: white;
 }
 
-h1 {
+h1,
+h2,
+h3,
+h4 {
   margin: 0;
-  font-size: 18px;
+  font-weight: bold;
+  line-height: 1.3;
   color: #000055;
+  overflow-wrap: break-word;
   background-color: #c0cbff;
+}
+
+h1 {
+  padding-left: 15px;
+  font-size: 1.4rem;
+}
+
+h2 {
+  padding-left: 15px;
+  margin-top: 10px;
+  font-size: 1.3rem;
 }
 
 div.inner {
@@ -41,11 +57,13 @@ tr:nth-child(odd) {
 th,
 td {
   padding: 5px 7px;
-  border: 2px solid #87ceeb;
+  border: 1px solid #c8cce0;
 }
 
 th {
-  background-color: #b7eefb;
+  font-weight: bold;
+  color: #000055;
+  background-color: #c0cbff;
 }
 
 td {
@@ -62,4 +80,30 @@ img.favicon {
 td a {
   display: flex;
   align-items: center;
+}
+
+.profile {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 10px;
+  text-align: left;
+}
+
+.profile-icon {
+  width: 100px;
+  height: auto;
+}
+
+.profile-name {
+  font-weight: bold;
+}
+
+.profile-label {
+  display: inline-block;
+  min-width: 5.2em;
+}
+
+.profile-links p {
+  margin: 2px 0;
 }
