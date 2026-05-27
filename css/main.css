@@ -10,11 +10,11 @@ body {
 }
 
 #contents {
-  min-width: 600px;
+  box-sizing: border-box;
+  width: 100%;
   max-width: 1200px;
   padding: 0;
   margin: auto;
-  text-align: center;
   background-color: white;
 }
 
@@ -87,6 +87,7 @@ td a {
   display: flex;
   gap: 10px;
   align-items: center;
+  padding-bottom: 8px;
   margin: 10px;
   text-align: left;
 }
@@ -107,4 +108,15 @@ td a {
 
 .profile-links p {
   margin: 2px 0;
+}
+
+@media (max-width: 600px) {
+  .profile {
+    display: block;
+  }
+
+  .profile-image {
+    margin-bottom: 0.5em;
+    text-align: center;
+  }
 }

@@ -12,7 +12,7 @@
   "bugs": {
     "url": "https://github.com/tatt61880/tatt61880.github.io/issues"
   },
-  "homepage": "https://github.com/tatt61880/tatt61880.github.io#readme",
+  "homepage": "https://tatt61880.github.io/",
   "scripts": {
     "htmlhint": "htmlhint ./*.html",
     "stylelint": "stylelint ./css/*.css --fix"
