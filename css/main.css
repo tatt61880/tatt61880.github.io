@@ -10,7 +10,8 @@ body {
 }
 
 #contents {
-  max-width: 1000px;
+  min-width: 600px;
+  max-width: 1200px;
   padding: 0;
   margin: auto;
   text-align: center;
