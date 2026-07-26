@@ -1,4 +1,3 @@
-/* global QRErrorCorrectLevel, QRCode */
 (function () {
   window.onload = function () {
     const elemText = document.getElementById('input-text');
@@ -33,7 +32,7 @@
       width: 256,
       height: 256,
       typeNumber: -1,
-      correctLevel: QRErrorCorrectLevel.L,
+      correctLevel: window.QRErrorCorrectLevel.L,
       background: '#ffffff',
       foreground: '#000000'
     });
@@ -63,7 +62,7 @@
         return canvasElem;
       }
 
-      const qrcode = new QRCode(options.typeNumber, options.correctLevel);
+      const qrcode = new window.QRCode(options.typeNumber, options.correctLevel);
       qrcode.addData(options.text);
       qrcode.make();
 
