@@ -116,7 +116,7 @@ td a {
   margin-left: 0.2em;
 }
 
-@media (max-width: 600px) {
+@media (width <= 600px) {
   .profile {
     display: block;
   }
