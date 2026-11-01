@@ -21,15 +21,16 @@
     </header>
     <ul>
       <li>QRコードは株式会社デンソーウェーブの登録商標です</li>
-      <li>ASCII以外には非対応です</li>
+      <li>日本語・絵文字に対応しています（UTF-8）。</li>
       <li>自己責任でご利用ください</li>
     </ul>
     <div class="inner">
-      <input type="text" value="" id="input-text">
+      <input type="text" value="" id="input-text" aria-label="QRコードにする文字列" aria-describedby="error-message">
+      <p id="error-message" role="alert" hidden></p>
 
       <div id="qrcode"></div>
       <div>
-        <img id="new-image" src="./" alt="QR">
+        <img id="new-image" alt="入力した文字列のQRコード" hidden>
       </div>
     </div>
   </div>

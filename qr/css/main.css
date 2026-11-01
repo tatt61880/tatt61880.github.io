@@ -41,3 +41,8 @@ ul {
 input[type="text"] {
   border: solid 1px #808080;
 }
+
+#new-image {
+  max-width: 100%;
+  height: auto;
+}

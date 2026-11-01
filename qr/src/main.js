@@ -6,18 +6,36 @@
 
     function update() {
       const inputText = document.getElementById('input-text').value;
-      updateQrcode({
-        text: inputText,
-        width: 300,
-        height: 300,
-      });
-
-      const cvs = document.getElementById('canvas');
-      const png = cvs.toDataURL();
       const elemNewImage = document.getElementById('new-image');
-      elemNewImage.setAttribute('src', png);
-      elemNewImage.style.border = '1px solid #000088';
-      document.getElementById('canvas').parentNode.textContent = '';
+      const elemError = document.getElementById('error-message');
+      elemError.hidden = true;
+      elemError.textContent = '';
+      elemText.removeAttribute('aria-invalid');
+
+      try {
+        updateQrcode({
+          text: inputText,
+          width: 300,
+          height: 300,
+        });
+
+        const cvs = document.getElementById('canvas');
+        const png = cvs.toDataURL();
+        elemNewImage.setAttribute('src', png);
+        elemNewImage.style.border = '1px solid #000088';
+        elemNewImage.hidden = false;
+        cvs.parentNode.textContent = '';
+      } catch (error) {
+        elemNewImage.hidden = true;
+        elemNewImage.removeAttribute('src');
+        elemText.setAttribute('aria-invalid', 'true');
+        if (error.message.startsWith('code length overflow.')) {
+          elemError.textContent = '入力が長すぎます。文字数を減らしてください。';
+        } else {
+          elemError.textContent = 'QRコードを作成できませんでした。入力内容を確認してください。';
+        }
+        elemError.hidden = false;
+      }
     }
   };
 
@@ -28,59 +46,44 @@
 
     // set default values
     // typeNumber < 1 for automatic calculation
-    Object.assign(options, {
+    const settings = Object.assign({
       width: 256,
       height: 256,
       typeNumber: -1,
       correctLevel: window.QRErrorCorrectLevel.L,
       background: '#ffffff',
       foreground: '#000000'
-    });
-
-    function isAscii(text) {
-      for (const c of text) {
-        if (c.charCodeAt(0) > 0x7f) return false;
-      }
-      return true;
-    }
+    }, options);
 
     function createCanvas() {
       const canvasElem = document.createElement('canvas');
       canvasElem.setAttribute('id', 'canvas');
       canvasElem.style.border = '1px solid #000088';
-      const width = options.width;
-      const height = options.height;
-      canvasElem.width = width;
-      canvasElem.height = height;
-      const ctx = canvasElem.getContext('2d');
-
-      if (!isAscii(options.text)) {
-        ctx.fillStyle = options.background;
-        ctx.fillRect(0, 0, width, height);
-        ctx.fillStyle = options.foreground;
-        ctx.fillRect(0.15 * width, 0.15 * height, 0.7 * width, 0.7 * height);
-        return canvasElem;
-      }
-
-      const qrcode = new window.QRCode(options.typeNumber, options.correctLevel);
-      qrcode.addData(options.text);
+      const qrcode = new window.QRCode(settings.typeNumber, settings.correctLevel);
+      // qrcode.jsは文字コードの下位8ビットを書き込むため、UTF-8の各バイトを1文字ずつ渡す。
+      const bytes = new TextEncoder().encode(settings.text);
+      const byteString = Array.from(bytes, (byte) => String.fromCharCode(byte)).join('');
+      qrcode.addData(byteString);
       qrcode.make();
 
       const margin = 4;
-      const tileW = width / (qrcode.getModuleCount() + 2 * margin);
-      const tileH = height / (qrcode.getModuleCount() + 2 * margin);
-      ctx.fillStyle = options.background;
-      ctx.fillRect(0, 0, width, height);
+      const moduleCount = qrcode.getModuleCount();
+      const totalModules = moduleCount + 2 * margin;
+      // マスの幅を整数ピクセルにそろえ、長い入力でも1マス4px以上を確保する。
+      const tileSize = Math.max(4, Math.ceil(Math.max(settings.width, settings.height) / totalModules));
+      const size = totalModules * tileSize;
+      canvasElem.width = size;
+      canvasElem.height = size;
+      const ctx = canvasElem.getContext('2d');
+      ctx.fillStyle = settings.background;
+      ctx.fillRect(0, 0, size, size);
+      ctx.fillStyle = settings.foreground;
 
-      for (let row = 0; row < qrcode.getModuleCount(); row++) {
-        for (let col = 0; col < qrcode.getModuleCount(); col++) {
-          ctx.fillStyle = qrcode.isDark(row, col) ? options.foreground : options.background;
-          const w = Math.ceil((col + 1) * tileW) - Math.floor(col * tileW);
-          const h = Math.ceil((row + 1) * tileH) - Math.floor(row * tileH);
-          ctx.fillRect(
-            Math.round((col + margin) * tileW),
-            Math.round((row + margin) * tileH),
-            w, h);
+      for (let row = 0; row < moduleCount; row++) {
+        for (let col = 0; col < moduleCount; col++) {
+          if (qrcode.isDark(row, col)) {
+            ctx.fillRect((col + margin) * tileSize, (row + margin) * tileSize, tileSize, tileSize);
+          }
         }
       }
       // return just built canvas
