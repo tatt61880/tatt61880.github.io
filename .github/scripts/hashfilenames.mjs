@@ -24,21 +24,24 @@ function alreadyHasHash(fileBase, ext) {
   return re.test(fileBase + ext);
 }
 
-// dist配下の絶対パス -> HTML内で出てくる相対パス表現（/ を使う）へ
-function toWebPath(absPath) {
-  const rel = path.relative(distDir, absPath);
-  return rel.split(path.sep).join('/');
-}
-
 function processHtml(filePath, mapping) {
   let html = fs.readFileSync(filePath, 'utf8');
 
   // src/href の値だけを置換対象にする（雑に全文置換しない）
-  html = html.replace(/\b(src|href)\s*=\s*(["'])([^"']+)\2/gi, (m, attr, quote, url) => {
-    // クエリ/ハッシュが付いている場合は分離して戻す
-    const [base, tail = ''] = url.split(/(?=[?#])/); // # or ? 以降を残す
-    const replaced = mapping.get(base) || base;
-    return `${attr}=${quote}${replaced}${tail}${quote}`;
+  html = html.replace(/(\s)(src|href)\s*=\s*(["'])([^"']+)\3/gi, (match, space, attr, quote, url) => {
+    // 外部URL、データURL、ページ内リンクなどは書き換えない。
+    if (/^(?:[a-z][a-z\d+.-]*:|\/\/|[?#])/i.test(url)) return match;
+
+    // クエリとフラグメントは、両方あっても末尾まで保持する。
+    const [, base, tail] = url.match(/^([^?#]*)(.*)$/);
+    const targetPath = base.startsWith('/')
+      ? path.resolve(distDir, '.' + base)
+      : path.resolve(path.dirname(filePath), base);
+    const newName = mapping.get(targetPath);
+    if (!newName) return match;
+
+    const replaced = base.slice(0, base.lastIndexOf('/') + 1) + newName;
+    return `${space}${attr}=${quote}${replaced}${tail}${quote}`;
   });
 
   fs.writeFileSync(filePath, html, 'utf8');
@@ -48,7 +51,7 @@ function main() {
   const files = walk(distDir);
 
   // 1) 対象アセットをハッシュ名にリネームし、旧->新の対応表を作る
-  // mapping: "path/in/html.js" -> "path/in/html.<hash>.js"
+  // HTMLの所在に応じて解決できるよう、元ファイルの絶対パスをキーにする。
   const mapping = new Map();
 
   for (const abs of files) {
@@ -68,12 +71,7 @@ function main() {
 
     fs.renameSync(abs, newAbs);
 
-    const oldWeb = toWebPath(abs);
-    const newWeb = toWebPath(newAbs);
-    // HTMLでは "./" が付く場合もあるので両方対応しておく
-    mapping.set(oldWeb, newWeb);
-    mapping.set('./' + oldWeb, './' + newWeb);
-    mapping.set('/' + oldWeb, '/' + newWeb);
+    mapping.set(path.resolve(abs), newName);
   }
 
   // 2) dist内の全HTMLの参照を書き換える
@@ -83,7 +81,7 @@ function main() {
     }
   }
 
-  console.log(`hashed files: ${mapping.size / 3} (html rewrite done)`);
+  console.log(`hashed files: ${mapping.size} (html rewrite done)`);
 }
 
 main();
