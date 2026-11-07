@@ -1,33 +1,25 @@
 (function () {
   window.onload = function () {
     const elemText = document.getElementById('input-text');
+    const elemQrcode = document.getElementById('qrcode');
     elemText.addEventListener('input', update, false);
     update();
 
     function update() {
-      const inputText = document.getElementById('input-text').value;
-      const elemNewImage = document.getElementById('new-image');
       const elemError = document.getElementById('error-message');
       elemError.hidden = true;
       elemError.textContent = '';
       elemText.removeAttribute('aria-invalid');
 
       try {
-        updateQrcode({
-          text: inputText,
+        const image = createQrcodeImage({
+          text: elemText.value,
           width: 300,
           height: 300,
         });
-
-        const cvs = document.getElementById('canvas');
-        const png = cvs.toDataURL();
-        elemNewImage.setAttribute('src', png);
-        elemNewImage.style.border = '1px solid #000088';
-        elemNewImage.hidden = false;
-        cvs.parentNode.textContent = '';
+        elemQrcode.replaceChildren(image);
       } catch (error) {
-        elemNewImage.hidden = true;
-        elemNewImage.removeAttribute('src');
+        elemQrcode.replaceChildren();
         elemText.setAttribute('aria-invalid', 'true');
         if (error.message.startsWith('code length overflow.')) {
           elemError.textContent = '入力が長すぎます。文字数を減らしてください。';
@@ -39,7 +31,7 @@
     }
   };
 
-  function updateQrcode(options) {
+  function createQrcodeImage(options) {
     if (typeof options === 'string') {
       options = { text: options }; // eslint-disable-line no-param-reassign
     }
@@ -57,8 +49,6 @@
 
     function createCanvas() {
       const canvasElem = document.createElement('canvas');
-      canvasElem.setAttribute('id', 'canvas');
-      canvasElem.style.border = '1px solid #000088';
       const qrcode = new window.QRCode(settings.typeNumber, settings.correctLevel);
       // qrcode.jsは文字コードの下位8ビットを書き込むため、UTF-8の各バイトを1文字ずつ渡す。
       const bytes = new TextEncoder().encode(settings.text);
@@ -90,8 +80,9 @@
       return canvasElem;
     }
 
-    const elemQrcode = document.getElementById('qrcode');
-    elemQrcode.textContent = '';
-    elemQrcode.appendChild(createCanvas());
+    const image = document.createElement('img');
+    image.alt = '入力した文字列のQRコード';
+    image.src = createCanvas().toDataURL();
+    return image;
   }
 })();

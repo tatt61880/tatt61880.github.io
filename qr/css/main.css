@@ -42,7 +42,12 @@ input[type="text"] {
   border: solid 1px #808080;
 }
 
-#new-image {
+#qrcode {
+  padding-top: 5px;
+}
+
+#qrcode img {
   max-width: 100%;
   height: auto;
+  border: 1px solid #000088;
 }
